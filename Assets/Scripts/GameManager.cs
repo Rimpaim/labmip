@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,12 +31,17 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject camera;
+
+    [SerializeField]
+    private TMP_Text scoreText;
     
     public static GameManager Instance;
  
     void Start()
     {
         Instance = this;
+        
+        UpdateScoreText();
 
         camera = Camera.main.gameObject;
         CameraBehindCueBall();
@@ -47,6 +53,7 @@ public class GameManager : MonoBehaviour
         SetBall(ColorBall.Blue,   5);
         SetBall(ColorBall.Pink,   6);
         SetBall(ColorBall.Black,  7);
+        
     }
 
     private void Update()
@@ -103,6 +110,11 @@ public class GameManager : MonoBehaviour
         
         ballLine.SetActive(true);
 
+    }
+
+    public void UpdateScoreText()
+    {
+        scoreText.text = $"Player Score : {playScore}";
     }
     
 }
