@@ -27,12 +27,19 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float xInput;
+
+    [SerializeField]
+    private GameObject camera;
     
     public static GameManager Instance;
  
     void Start()
     {
         Instance = this;
+
+        camera = Camera.main.gameObject;
+        CameraBehindCueBall();
+        
         SetBall(ColorBall.Red,    1);
         SetBall(ColorBall.Yellow, 2);
         SetBall(ColorBall.Green,  3);
@@ -67,10 +74,18 @@ public class GameManager : MonoBehaviour
 
     private void ShootBall()
     {
+        camera.transform.parent = null;
         Rigidbody rb = cueBall.GetComponent<Rigidbody>();
         rb.AddRelativeForce(Vector3.forward * 50, ForceMode.Impulse);
         
         ballLine.SetActive(false);
+    }
+
+    private void CameraBehindCueBall()
+    {
+        camera.transform.parent = cueBall.transform;
+        camera.transform.position = cueBall.transform.position
+                                    + new Vector3(0f, 7f, -10f);
     }
     
 }
